@@ -1,4 +1,3 @@
-```markdown
 # **SIRCP - Sistema de Rastreo de Precio (Prototipo)**
 
 Sistema para el rastreo y análisis de precios, desarrollado con **Flask** y **MySQL**.
@@ -100,8 +99,3 @@ Si deseas contribuir, abre un *Pull Request* o reporta un *Issue* en el reposito
 ---
 ## 📜 **Licencia**
 Este proyecto es de código abierto y está bajo la licencia **MIT**.
-```
-
----
----
-
