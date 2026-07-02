@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.I.R.C.P</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+
+<div id="pantalla-auth" class="auth-overlay">
+    <div class="auth-card">
+
+        <div class="auth-logo">
+            <div class="auth-logo-icon"></div>
+            <h1>S.I.R.C.P.</h1>
+            <p>Sistema Inteligente de Rastreo y<br>Comparación de Precios</p>
+        </div>
+
+        <div class="auth-tabs">
+            <button class="auth-tab active" onclick="cambiarTab('login')">Iniciar Sesión</button>
+            <button class="auth-tab"        onclick="cambiarTab('registro')">Registrarse</button>
+        </div>
+
+        <div id="form-login" class="auth-form">
+            <div class="auth-field">
+                <label>Correo electrónico</label>
+                <input type="email" id="login-email" placeholder="tu@email.com">
+            </div>
+            <div class="auth-field">
+                <label>Contraseña</label>
+                <input type="password" id="login-password" placeholder="Tu contraseña">
+            </div>
+            <div id="login-error" class="auth-error" style="display:none;"></div>
+            <button class="auth-btn" onclick="ejecutarLogin()">Ingresar al Sistema</button>
+        </div>
+
+        <div id="form-registro" class="auth-form" style="display:none;">
+            <div class="auth-field">
+                <label>Nombre completo</label>
+                <input type="text" id="reg-nombre" placeholder="Tu nombre">
+            </div>
+            <div class="auth-field">
+                <label>Correo electrónico</label>
+                <input type="email" id="reg-email" placeholder="tu@email.com">
+            </div>
+            <div class="auth-field">
+                <label>Contraseña <span style="font-weight:400;font-size:12px;">(mínimo 6 caracteres)</span></label>
+                <input type="password" id="reg-password" placeholder="Elegí una contraseña segura">
+            </div>
+            <div id="reg-error" class="auth-error" style="display:none;"></div>
+            <button class="auth-btn" onclick="ejecutarRegistro()">Crear Cuenta</button>
+        </div>
+
+    </div>
+</div>
+
+<div id="app-principal" style="display:none;">
+
+    <div class="app-layout">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="topbar-icon"></span>
+                <div>
+                    <h2>S.I.R.C.P</h2>
+                    <p>Sistema Inteligente de Rastreo y Comparación de Precios</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-pill active" onclick="mostrarSeccion('busqueda')">🔍 Buscar</button>
+                <button class="nav-pill"        onclick="mostrarSeccion('favoritos')">❤️ Favoritos</button>
+                <button class="nav-pill"        onclick="mostrarSeccion('alertas')">🔔 Alertas</button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-badge">👤 <span id="nombre-usuario">Usuario</span></div>
+                <button class="logout-btn" onclick="ejecutarLogout()">Cerrar Sesión</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="container">
+
+                <div id="seccion-busqueda" class="seccion">
+
+                    <div class="search-panel">
+                        <div class="search-grid">
+
+                            <div class="input-group">
+                                <label>Producto a Buscar</label>
+                                <input type="text" id="producto" placeholder="Ej: Smart Tv, Samsung Galaxy S24...">
+                            </div>
+
+                            <div class="input-group">
+                                <label>Categoría</label>
+                                <div class="categoria-tabs">
+                                    <button class="cat-tab active" data-cat="Tecnología" onclick="seleccionarCategoria(this)">
+                                        💻 Tecnología
+                                    </button>
+                                    <button class="cat-tab" data-cat="Hogar" onclick="seleccionarCategoria(this)">
+                                        🏠 Hogar
+                                    </button>
+                                    <button class="cat-tab" data-cat="Moda" onclick="seleccionarCategoria(this)">
+                                        👗 Moda
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="platforms-section">
+                            <label>Seleccionar Plataformas</label>
+
+                            <div id="plat-Tecnología" class="platforms">
+                                <label class="platform-card">
+                                    <input type="checkbox" value="Fravega"> Frávega  
+                                </label>
+                                <label class="platform-card">
+                                    <input type="checkbox" value="Naldo"> Naldo
+                                </label>
+                                <label class="platform-card">
+                                    <input type="checkbox" value="OnCity"> OnCity
+                                </label>
+                                <label class="platform-card">
+                                    <input type="checkbox" value="FGStore"> FGStore
+                                </label>
+                                <label class="platform-card">
+                                    <input type="checkbox" value="Megatone"> Megatone
+                                </label>
+                            </div>
+
+                            <div id="plat-Hogar" class="platforms" style="display:none;">
+                                <label class="platform-card">
+                                    <input type="checkbox" value="Fravega"> Frávega
+                                </label>
+                                <label class="platform-card">
+                                    <input type="checkbox" value="OnCity"> OnCity
+                                </label>
+                                <label class="platform-card plat-simulada">
+                                    <input type="checkbox" value="Easy" disabled>
+                                    Easy <span class="badge-pronto">Pronto</span>
+                                </label>
+                                <label class="platform-card plat-simulada">
+                                    <input type="checkbox" value="MercadoLibre" disabled>
+                                    MercadoLibre <span class="badge-pronto">Pronto</span>
+                                </label>
+                            </div>
+
+                            <div id="plat-Moda" class="platforms" style="display:none;">
+                                <label class="platform-card plat-simulada">
+                                    <input type="checkbox" value="Shein" disabled>
+                                    Shein <span class="badge-pronto">Pronto</span>
+                                </label>
+                                <label class="platform-card plat-simulada">
+                                    <input type="checkbox" value="Zara" disabled>
+                                    Zara <span class="badge-pronto">Pronto</span>
+                                </label>
+                                <label class="platform-card plat-simulada">
+                                    <input type="checkbox" value="MercadoLibreModa" disabled>
+                                    MercadoLibre <span class="badge-pronto">Pronto</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="scan-btn" onclick="ejecutarRastreo()">
+                             ESCANEAR PRECIOS
+                        </button>
+                    </div>
+
+                    <div class="dashboard">
+                        <div class="card card-blue">
+                            <p>💰 Precio Más Bajo Detectado</p>
+                            <h2 id="precio-minimo">$0</h2>
+                            <small id="tienda-barata">Sin resultados</small>
+                        </div>
+                        <div class="card card-green">
+                            <p>📊 Mínimo Histórico Absoluto</p>
+                            <h2 id="hist-min">$0</h2>
+                            <small>Precio más bajo registrado</small>
+                        </div>
+                        <div class="card card-purple">
+                            <p>🏪 Plataformas Analizadas</p>
+                            <h2 id="total-plataformas">0</h2>
+                            <small>Tiendas activas</small>
+                        </div>
+                        <div class="card card-orange">
+                            <p>📦 Productos Encontrados</p>
+                            <h2 id="stock-total">0</h2>
+                            <small>Con precio disponible</small>
+                        </div>
+                    </div>
+
+                    <div class="results-panel" id="resultados-panel">
+
+                        <div id="btn-favorito-container" style="display:none; margin-bottom:16px;">
+                            <button class="fav-save-btn" onclick="guardarEnFavoritos()">
+                                ❤️ Guardar en Favoritos
+                            </button>
+                        </div>
+
+                        <h2 class="section-title">Resultados por Plataforma</h2>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Plataforma</th>
+                                        <th>Estado</th>
+                                        <th>Precio</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-resultados">
+                                    <tr>
+                                        <td colspan="4" class="td-placeholder">
+                                            Realizá una búsqueda para ver los resultados
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h2 class="section-title" style="margin-top:30px;">Desglose Completo</h2>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Plataforma</th>
+                                        <th>Nombre Producto</th>
+                                        <th>Precio</th>
+                                        <th>Link</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-desglose">
+                                    <tr>
+                                        <td colspan="4" class="td-placeholder">Sin datos.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h2 class="section-title" style="margin-top:30px;">📊 Historial de Rastreo</h2>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Fecha y Hora</th>
+                                        <th>Tienda</th>
+                                        <th>Precio Mínimo Registrado</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-historial-completo">
+                                    <tr>
+                                        <td colspan="3" class="td-placeholder">No hay registros históricos.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="seccion-favoritos" class="seccion" style="display:none;">
+                    <div class="seccion-header">
+                        <h2>❤️ Mis Productos Favoritos</h2>
+                        <p>Productos guardados para seguimiento continuo de precios.</p>
+                    </div>
+                    <div id="lista-favoritos" class="favoritos-grid">
+                        <div class="empty-state">
+                            <div class="empty-icon">❤️</div>
+                            <p>No tenés favoritos guardados todavía.<br>Buscá un producto y presioná <strong>Guardar en Favoritos</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="seccion-alertas" class="seccion" style="display:none;">
+                    <div class="seccion-header">
+                        <h2>🔔 Alertas de Precio</h2>
+                        <p>Cuando el precio de un favorito baje de tu umbral, aparecerá aquí.</p>
+                        <button class="scan-btn" style="max-width:280px;margin-top:12px;" onclick="verificarAlertas()">
+                            🔍 Verificar Alertas Ahora
+                        </button>
+                    </div>
+                    <div id="lista-alertas">
+                        <div class="empty-state">
+                            <div class="empty-icon">🔔</div>
+                            <p>No hay alertas activas.<br>Establecé un umbral de precio en tus favoritos para activar alertas.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div></main></div></div><div id="toast" class="toast" style="display:none;"></div>
+
+<script src="../static/script.js"></script>
+</body>
+</html>
