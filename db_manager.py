@@ -11,8 +11,8 @@ def obtener_conexion():
     """
     return mysql.connector.connect(
         host="localhost",
-        user="william",
-        password="41795145",
+        user="Tu_Usuario",
+        password="Tu_Contraseña",
         database="sircp_db"
     )
 
